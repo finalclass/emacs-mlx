@@ -42,10 +42,8 @@ In `~/.config/doom/config.el`:
 
 ```elisp
 (use-package! mlx-mode
-  :defer t
   :mode "\\.mlx\\'"
-  :init
-  (add-to-list 'auto-mode-alist '("\\.mlx\\'" . mlx-mode)))
+  :hook (mlx-mode . eglot-ensure))
 ```
 
 Then run `doom sync` and restart Emacs.
@@ -56,10 +54,7 @@ Then run `doom sync` and restart Emacs.
 (use-package mlx-mode
   :straight (:host github :repo "finalclass/emacs-mlx")
   :mode "\\.mlx\\'"
-  :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '(mlx-mode . ("ocamllsp")))))
+  :hook (mlx-mode . eglot-ensure))
 ```
 
 ### Manual
@@ -70,22 +65,22 @@ Clone this repository and add it to your `load-path`:
 (add-to-list 'load-path "/path/to/emacs-mlx")
 (require 'mlx-mode)
 
-;; LSP via eglot
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               '(mlx-mode . ("ocamllsp"))))
-
 ;; Auto-start eglot for .mlx files (optional)
 (add-hook 'mlx-mode-hook #'eglot-ensure)
 ```
 
 ### lsp-mode (alternative to eglot)
 
-If you use `lsp-mode` instead of eglot, `mlx-mode` registers itself automatically. Just ensure `ocamllsp` is in your `PATH` and add:
+If you use `lsp-mode` instead of eglot, just ensure `ocamllsp` is in your `PATH` and add:
 
 ```elisp
 (add-hook 'mlx-mode-hook #'lsp)
 ```
+
+### LSP
+
+`mlx-mode` automatically registers `ocamllsp` with both eglot and lsp-mode.
+You only need to start your preferred LSP client, either via a hook (as shown above) or manually with `M-x eglot` / `M-x lsp`.
 
 ## Customization
 
