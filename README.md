@@ -42,11 +42,10 @@ In `~/.config/doom/config.el`:
 
 ```elisp
 (use-package! mlx-mode
+  :defer t
   :mode "\\.mlx\\'"
-  :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '(mlx-mode . ("ocamllsp")))))
+  :init
+  (add-to-list 'auto-mode-alist '("\\.mlx\\'" . mlx-mode)))
 ```
 
 Then run `doom sync` and restart Emacs.
