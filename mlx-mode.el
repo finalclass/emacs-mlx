@@ -1,6 +1,6 @@
 ;;; mlx-mode.el --- Major mode for MLX (OCaml with JSX) -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2025 Szymon Wygnanski
+;; Copyright (C) 2026 Szymon Wygnanski
 ;; Author: Szymon Wygnanski
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "27.1") (tuareg "3.0.0"))
@@ -248,22 +248,6 @@ Falls back to ORIG-FUN (tuareg indentation) for non-JSX lines."
 ;; so no additional syntax properties are needed for JSX delimiters.
 
 ;;; ============================================================
-;;; LSP integration
-;;; ============================================================
-
-;; Eglot support
-(with-eval-after-load 'eglot
-  (defvar eglot-server-programs)
-  (add-to-list 'eglot-server-programs
-               '(mlx-mode . ("ocamllsp"))))
-
-;; lsp-mode support
-(with-eval-after-load 'lsp-mode
-  (defvar lsp-language-id-configuration)
-  (add-to-list 'lsp-language-id-configuration
-               '(mlx-mode . "ocaml")))
-
-;;; ============================================================
 ;;; Mode definition
 ;;; ============================================================
 
@@ -289,7 +273,19 @@ This mode provides:
 
   ;; JSX indentation wrapping tuareg's SMIE indentation
   (add-function :around (local 'indent-line-function)
-                #'mlx--indent-line))
+                #'mlx--indent-line)
+
+  ;; Register with eglot if loaded
+  (when (fboundp 'eglot-ensure)
+    (defvar eglot-server-programs)
+    (add-to-list 'eglot-server-programs
+                 '(mlx-mode . ("ocamllsp"))))
+
+  ;; Register with lsp-mode if loaded
+  (when (fboundp 'lsp)
+    (defvar lsp-language-id-configuration)
+    (add-to-list 'lsp-language-id-configuration
+                 '(mlx-mode . "ocaml"))))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.mlx\\'" . mlx-mode))
