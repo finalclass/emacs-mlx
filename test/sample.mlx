@@ -1,0 +1,105 @@
+(*
+   Sample MLX file for testing syntax highlighting and indentation.
+   This file demonstrates JSX within OCaml.
+*)
+
+(* Basic self-closing tag *)
+let greeting = <div />
+
+(* Lowercase tag with children *)
+let hello = <div>hello world</div>
+
+(* Uppercase component *)
+let app = <App />
+
+(* Module path component *)
+let view = <Components.Button />
+
+(* Tag with attributes *)
+let styled_div =
+  <div
+    className="container"
+    id="main"
+  >
+    <span>content</span>
+  </div>
+
+(* Optional attributes *)
+let opt = <input ?disabled ?value=some_val />
+
+(* Valued attributes *)
+let btn =
+  <button
+    onClick=handle_click
+    style=(Style.make ~color:"red" ())
+  >
+    <span>click me</span>
+  </button>
+
+(* Component with props *)
+let my_component =
+  <MyComponent
+    title="Hello"
+    count=42
+    items=[1; 2; 3]
+  />
+
+(* Nested JSX *)
+let layout =
+  <div>
+    <Header title="My App" />
+    <main>
+      <Sidebar />
+      <Content>
+        <p>hello</p>
+      </Content>
+    </main>
+    <Footer />
+  </div>
+
+(* JSX in expressions *)
+let items = List.map (fun item ->
+  <li key=item.id>
+    item.name
+  </li>
+) data
+
+(* Regular OCaml code -- should highlight normally *)
+let x = 42
+let y = x + 1
+let z = if x > 0 then "positive" else "non-positive"
+
+type t = { name : string; age : int }
+
+module M = struct
+  let value = 100
+end
+
+let result = match x with
+  | 0 -> "zero"
+  | n when n > 0 -> "positive"
+  | _ -> "negative"
+
+(* JSX inside match *)
+let render status =
+  match status with
+  | `Loading -> <Spinner />
+  | `Error msg -> <div className="error">msg</div>
+  | `Ok data ->
+    <div>
+      <h1>data.title</h1>
+      <p>data.body</p>
+    </div>
+
+(* Fragments and complex nesting *)
+let fragment =
+  <div>
+    <Components.Header
+      title="Test"
+      ?subtitle
+      on_click=(fun () -> print_endline "clicked")
+    />
+    <Components.Body>
+      content
+    </Components.Body>
+  </div>
