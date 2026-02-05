@@ -275,15 +275,13 @@ This mode provides:
   (add-function :around (local 'indent-line-function)
                 #'mlx--indent-line)
 
-  ;; Register with eglot if loaded
-  (when (fboundp 'eglot-ensure)
-    (defvar eglot-server-programs)
+  ;; Register with eglot
+  (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
                  '(mlx-mode . ("ocamllsp"))))
 
-  ;; Register with lsp-mode if loaded
-  (when (fboundp 'lsp)
-    (defvar lsp-language-id-configuration)
+  ;; Register with lsp-mode
+  (with-eval-after-load 'lsp-mode
     (add-to-list 'lsp-language-id-configuration
                  '(mlx-mode . "ocaml"))))
 
