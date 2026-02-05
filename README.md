@@ -90,9 +90,9 @@ If you use `lsp-mode` instead of eglot, `mlx-mode` registers itself automaticall
 
 ## Customization
 
-| Variable | Default | Description |
-|---|---|---|
-| `mlx-jsx-indent-offset` | `2` | Indentation for JSX children |
+| Variable                | Default | Description                  |
+|-------------------------|---------|------------------------------|
+| `mlx-jsx-indent-offset` | `2`     | Indentation for JSX children |
 
 ### Faces
 
